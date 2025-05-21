@@ -2,6 +2,8 @@
 
 set or get bitflag from index for unsigned intager types
 
+using `u8` like `[bool;8]`!!
+
 ```rs
 let mut bit = 0_u8;
 BitSet::bitset(&mut bit, 3, true);
