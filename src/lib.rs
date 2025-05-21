@@ -1,8 +1,9 @@
+#![no_std]
 pub trait BitSet {
     fn bitset(&mut self, index: usize, b: bool);
     fn bitget(&self, index: usize) -> bool;
 }
-use std::mem::size_of;
+use core::mem::size_of;
 
 macro_rules! define_bitset_impl {
     ($t:ty) => {
