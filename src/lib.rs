@@ -10,10 +10,9 @@ pub trait BitTogle {
     fn bittogle(&mut self, index: usize);
 }
 
-mod impl_macro;
-
 pub(crate) mod dispatch;
 mod for_container;
+mod impl_macro;
 
 #[cfg(test)]
 mod test;
