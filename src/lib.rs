@@ -30,11 +30,42 @@ macro_rules! define_bitset_impl {
     };
 }
 
+macro_rules! define_bitset_impl_slice {
+    ($t:ty) => {
+        impl BitSet for &mut [$t] {
+            fn bitset(&mut self, index: usize, b: bool) {
+                let bits = size_of::<$t>() * 8;
+                self[index / bits].bitset(index % bits, b);
+            }
+            fn bitget(&self, index: usize) -> bool {
+                let bits = size_of::<$t>() * 8;
+                self[index / bits].bitget(index % bits)
+            }
+        }
+        impl BitSet for &[$t] {
+            fn bitset(&mut self, _index: usize, _b: bool) {
+                // immutable slice cannot set bits
+                panic!("Cannot set bits on immutable slice");
+            }
+            fn bitget(&self, index: usize) -> bool {
+                let bits = size_of::<$t>() * 8;
+                self[index / bits].bitget(index % bits)
+            }
+        }
+    };
+}
+
 define_bitset_impl!(u8);
 define_bitset_impl!(u16);
 define_bitset_impl!(u32);
 define_bitset_impl!(u64);
 define_bitset_impl!(u128);
+
+define_bitset_impl_slice!(u8);
+define_bitset_impl_slice!(u16);
+define_bitset_impl_slice!(u32);
+define_bitset_impl_slice!(u64);
+define_bitset_impl_slice!(u128);
 
 #[cfg(test)]
 mod tests {
@@ -81,5 +112,14 @@ mod tests {
         assert_eq!(bit.bitget(3), true);
         BitSet::bitset(&mut bit, 3, false);
         assert_eq!(bit.bitget(3), false);
+    }
+
+    #[test]
+    fn it_works_at_u8_slice() {
+        let mut bit = [0_u8; 3];
+        (&mut bit[..]).bitset(20, true);
+        assert_eq!((&bit[..]).bitget(20), true);
+        (&mut bit[..]).bitset(20, false);
+        assert_eq!((&bit[..]).bitget(20), false);
     }
 }

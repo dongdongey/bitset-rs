@@ -12,3 +12,11 @@ assert_eq!(bit.bitget(3), true); // you csn use method-like style
 bit.bitset(3, false);
 assert_eq!(bit.bitget(3), false);
 ```
+
+```rs
+let mut bit = [0_u8; 3];
+(&mut bit[..]).bitset(20, true);
+assert_eq!((&bit[..]).bitget(20), true);
+(&mut bit[..]).bitset(20, false);
+assert_eq!((&bit[..]).bitget(20), false);
+```
