@@ -15,8 +15,16 @@ assert_eq!(bit.bitget(3), false);
 
 ```rs
 let mut bit = [0_u8; 3];
-(&mut bit[..]).bitset(20, true);
-assert_eq!((&bit[..]).bitget(20), true);
-(&mut bit[..]).bitset(20, false);
-assert_eq!((&bit[..]).bitget(20), false);
+bit.bitset(20, true);
+assert_eq!(bit.bitget(20), true);
+bit.bitset(20, false);
+assert_eq!(bit.bitget(20), false);
+```
+
+```rs
+let mut bit: Vec<u8> = vec![0_u8; 3];
+bit.bitset(20, true);
+assert_eq!(bit.bitget(20), true);
+bit.bitset(20, false);
+assert_eq!(bit.bitget(20), false);
 ```
