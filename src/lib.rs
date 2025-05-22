@@ -97,7 +97,7 @@ mod tests {
     fn it_works_at_u8() {
         let mut bit = 0_u8;
         BitSet::bitset(&mut bit, 3, true);
-        assert_eq!(bit, 0b00010000);
+        assert_eq!(bit, 0b0001_0000);
         assert_eq!(bit.bitget(3), true);
         BitSet::bitset(&mut bit, 3, false);
         assert_eq!(bit.bitget(3), false);
@@ -106,7 +106,7 @@ mod tests {
     fn it_works_at_u16() {
         let mut bit = 0_u16;
         BitSet::bitset(&mut bit, 3, true);
-        assert_eq!(bit, 0b0001000000000000);
+        assert_eq!(bit, 0b0001_0000_0000_0000);
         assert_eq!(bit.bitget(3), true);
         BitSet::bitset(&mut bit, 3, false);
         assert_eq!(bit.bitget(3), false);
