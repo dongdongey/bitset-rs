@@ -1,8 +1,11 @@
 #![no_std]
-pub trait BitSet {
+pub trait BitSet: BitGet {
     fn bitset(&mut self, index: usize, b: bool);
+}
+pub trait BitGet {
     fn bitget(&self, index: usize) -> bool;
 }
+
 use core::mem::size_of;
 
 macro_rules! define_bitset_impl {
@@ -16,6 +19,8 @@ macro_rules! define_bitset_impl {
                     *self = *self ^ set;
                 }
             }
+        }
+        impl BitGet for $t{
             fn bitget(&self, index: usize) -> bool {
                 let init: Self = 1 as $t << (size_of::<Self>() * 8 - 1);
                 let set: Self = init >> index;
@@ -41,16 +46,16 @@ impl<U: BitSet> BitSet for &mut [U] {
         let bits = size_of::<U>() * 8;
         self[index / bits].bitset(index % bits, b);
     }
+}
+
+impl<U: BitGet> BitGet for &mut [U] {
     fn bitget(&self, index: usize) -> bool {
         let bits = size_of::<U>() * 8;
         self[index / bits].bitget(index % bits)
     }
 }
-impl<U: BitSet> BitSet for &[U] {
-    fn bitset(&mut self, _index: usize, _b: bool) {
-        // immutable slice cannot set bits
-        panic!("Cannot set bits on immutable slice");
-    }
+
+impl<U: BitGet> BitGet for &[U] {
     fn bitget(&self, index: usize) -> bool {
         let bits = size_of::<U>() * 8;
         self[index / bits].bitget(index % bits)
@@ -58,28 +63,26 @@ impl<U: BitSet> BitSet for &[U] {
 }
 
 extern crate alloc;
-impl<U> BitSet for alloc::vec::Vec<U>
-where
-    U: BitSet,
-{
+impl<U: BitSet> BitSet for alloc::vec::Vec<U> {
     fn bitset(&mut self, index: usize, b: bool) {
         let bits = core::mem::size_of::<U>() * 8;
         self[index / bits].bitset(index % bits, b);
     }
+}
+impl<U: BitGet> BitGet for alloc::vec::Vec<U> {
     fn bitget(&self, index: usize) -> bool {
         let bits = core::mem::size_of::<U>() * 8;
         self[index / bits].bitget(index % bits)
     }
 }
-impl<T, const N: usize> BitSet for [T; N]
-where
-    T: BitSet,
-{
+impl<T: BitSet, const N: usize> BitSet for [T; N] {
     fn bitset(&mut self, index: usize, b: bool) {
         let bits = core::mem::size_of::<T>() * 8;
         self[index / bits].bitset(index % bits, b);
     }
+}
 
+impl<T: BitGet, const N: usize> BitGet for [T; N] {
     fn bitget(&self, index: usize) -> bool {
         let bits = core::mem::size_of::<T>() * 8;
         self[index / bits].bitget(index % bits)
@@ -88,7 +91,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use crate::BitSet;
+    use crate::{BitGet, BitSet};
 
     #[test]
     fn it_works_at_u8() {
