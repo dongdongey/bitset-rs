@@ -7,7 +7,7 @@ macro_rules! define_bitset_impl {
             fn bitset(&mut self, index: usize, b: bool) {
                 let init: Self = 1 << (size_of::<Self>() * 8 - 1);
                 let set: Self = init >> index;
-                *self = *self | set;
+                *self |= set;
                 if !b {
                     *self = *self ^ set;
                 }
@@ -17,15 +17,14 @@ macro_rules! define_bitset_impl {
             fn bitget(&self, index: usize) -> bool {
                 let init: Self = 1 as $t << (size_of::<Self>() * 8 - 1);
                 let set: Self = init >> index;
-                let get = self & set;
-                get != 0
+                self & set != 0
             }
         }
         impl BitTogle for $t{
             fn bittogle(&mut self, index:usize){
                 let init: Self = 1 as $t << (size_of::<Self>() * 8 - 1);
                 let set: Self = init >> index;
-                *self = *self ^ set;
+                *self ^= set;
             }
         }
     };
