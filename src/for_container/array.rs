@@ -1,5 +1,5 @@
+use super::dispatch::*;
 use crate::*;
-use dispatch::*;
 impl<U: BitSet, const N: usize> BitSet for [U; N] {
     fn bitset(&mut self, index: usize, b: bool) {
         bitset_dispatch(self, index, b);

@@ -1,5 +1,5 @@
+use super::dispatch::*;
 use crate::*;
-use dispatch::*;
 
 extern crate alloc;
 

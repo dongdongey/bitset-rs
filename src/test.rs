@@ -12,6 +12,7 @@ fn it_works_at_u8() {
 
     assert_eq!(bit.bitget(3), false);
 }
+
 #[test]
 fn it_works_at_u16() {
     let mut bit = 0_u16;
@@ -21,6 +22,7 @@ fn it_works_at_u16() {
     BitSet::bitset(&mut bit, 3, false);
     assert_eq!(bit.bitget(3), false);
 }
+
 #[test]
 fn it_works_at_u32() {
     let mut bit = 0_u32;
@@ -29,6 +31,7 @@ fn it_works_at_u32() {
     BitSet::bitset(&mut bit, 3, false);
     assert_eq!(bit.bitget(3), false);
 }
+
 #[test]
 fn it_works_at_u64() {
     let mut bit = 0_u64;
@@ -54,6 +57,7 @@ fn it_works_at_u8_slice() {
     bit.bitset(20, false);
     assert_eq!(bit.bitget(20), false);
 }
+
 #[test]
 fn it_works_at_u8_vec() {
     extern crate std;

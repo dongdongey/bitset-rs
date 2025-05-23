@@ -6,11 +6,10 @@ pub trait BitSet: BitGet {
 pub trait BitGet {
     fn bitget(&self, index: usize) -> bool;
 }
-pub trait BitTogle {
+pub trait BitTogle: BitSet {
     fn bittogle(&mut self, index: usize);
 }
 
-pub(crate) mod dispatch;
 mod for_container;
 mod impl_macro;
 
