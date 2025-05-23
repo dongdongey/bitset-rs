@@ -18,11 +18,7 @@ macro_rules! define_bitset_impl {
                 let init: Self = 1 as $t << (size_of::<Self>() * 8 - 1);
                 let set: Self = init >> index;
                 let get = self & set;
-                if get == 0 {
-                    return false;
-                } else {
-                    return true;
-                }
+                get != 0
             }
         }
         impl BitTogle for $t{
