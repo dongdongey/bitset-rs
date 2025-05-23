@@ -9,7 +9,7 @@ macro_rules! define_bitset_impl {
                 let set: Self = init >> index;
                 *self |= set;
                 if !b {
-                    *self = *self ^ set;
+                    *self ^= set;
                 }
             }
         }
