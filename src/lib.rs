@@ -1,12 +1,12 @@
 #![no_std]
 
-pub trait BitSet: BitGet {
+pub trait BitSet {
     fn bitset(&mut self, index: usize, b: bool);
 }
 pub trait BitGet {
     fn bitget(&self, index: usize) -> bool;
 }
-pub trait BitTogle: BitSet {
+pub trait BitTogle {
     fn bittogle(&mut self, index: usize);
 }
 
