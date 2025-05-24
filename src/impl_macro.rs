@@ -5,25 +5,26 @@ macro_rules! define_bitset_impl {
     ($t:ty) => {
         impl BitSet for $t {
             fn bitset(&mut self, index: usize, b: bool) {
-                let init: Self = 1 << (size_of::<Self>() * 8 - 1);
-                let set: Self = init >> index;
-                *self |= set;
-                if !b {
-                    *self ^= set;
+                const INIT: $t = 1 << ((size_of::<$t>() << 3) - 1);
+                let set: $t = INIT >> index;
+                if b {
+                    *self |= set;
+                } else {
+                    *self &= !set;
                 }
             }
         }
-        impl BitGet for $t{
+        impl BitGet for $t {
             fn bitget(&self, index: usize) -> bool {
-                let init: Self = 1 as $t << (size_of::<Self>() * 8 - 1);
-                let set: Self = init >> index;
+                const INIT: $t = 1 << ((size_of::<$t>() << 3) - 1);
+                let set: $t = INIT >> index;
                 self & set != 0
             }
         }
-        impl BitTogle for $t{
-            fn bittogle(&mut self, index:usize){
-                let init: Self = 1 as $t << (size_of::<Self>() * 8 - 1);
-                let set: Self = init >> index;
+        impl BitTogle for $t {
+            fn bittogle(&mut self, index: usize) {
+                const INIT: $t = 1 << ((size_of::<$t>() << 3) - 1);
+                let set: $t = INIT >> index;
                 *self ^= set;
             }
         }
