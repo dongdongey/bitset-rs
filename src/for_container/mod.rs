@@ -1,4 +1,4 @@
 mod array;
-pub(super) mod dispatch;
+mod dispatch;
 mod slice;
 mod vec;
